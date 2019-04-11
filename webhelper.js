@@ -1,5 +1,5 @@
+// webhelper.js
 window.onload = start;
-
 var options=[];
 var buttonElement = document.getElementById("button1");
 var currentStoryElement = document.getElementById("currentStory");
@@ -10,16 +10,13 @@ var answer;
 var textTimer;
 
 function start() {
-    setup();
+    getScene(OPENING_SCENE_ID);
 }
-
 
 function setup() {
     setOptions([{ choice: "No DB", target: "" }]);
-    buttonElement.innerHTML = "What will you do?";
-    buttonElement.onclick = function () {
-    getScene(dropdown.value);
-    }
+    buttonElement.innerHTML = "What will you do?"; 
+    buttonElement.setAttribute("onclick", "getScene(dropdown.value)");
 }
 
 function setOptions(options) {
@@ -34,38 +31,6 @@ function setOptions(options) {
     }
 }
 
-function displayStory(text, delay = false, append = false) {
-    var currentStoryElement = document.getElementById("currentStory");
-    if (text=="mastermind") {
-    	window.location.href= '‎⁨..\/..\/mastermind/index.html';
-    	//currentStoryElement.innerHTML="You are confronted by a demon that challenges you to a <a href=\"../mastermind/index.html\">Mastermind</a> contest.";
-    }
-    else if (typeof(text) === 'string') {
-        currentStoryElement.innerHTML = text;
-    }
-	// the following makes text reveal slowly if a delay is indicated in the database
-	else if (delay) {
-        // Disable the button to prevent making a selection before
-        // full message is delivered.
-        buttonElement.disabled = true;
-        // Keep shifting strings from the array until it is empty.
-        if (append) {
-            currentStoryElement.innerHTML += `<br /><br />${text.shift()}`;
-        }
-		else {
-            currentStoryElement.innerHTML = text.shift();
-        }
-        if (text.length) {
-            setTimeout(function () {
-                displayStory(text, delay, true);
-            }, delay);
-        }
-		else {
-            // Done. Re-enable button.
-            buttonElement.disabled = false;
-        }
-    }
-	else {
-        currentStoryElement.innerHTML = text.join('<br /><br />');
-    }
+function displayStory(text) {
+    currentStoryElement.innerHTML = text;
 }
